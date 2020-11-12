@@ -1,33 +1,31 @@
 var express = require('express');
-var QRCode = require('qrcode')
+const { dimensions_table } = require('../sequelize')
 
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  dData = [
-    {
-      id: 1,
-      panjang: 10,
-      lebar: 5,
-      tinggi: 20,
-      berat: 100
-    },{
-      id: 2,
-      panjang: 11,
-      lebar: 6,
-      tinggi: 21,
-      berat: 101
-    },
-  ]
-  res.render('index', {
-    title: 'QR Generator',
-    dData: dData
+  dimensions_table.findAll().then(dimension_table_all => {
+    dData = dimension_table_all
+    res.render('index', {
+      title: 'QR Generator',
+      dData: dData
+    });
   });
 });
 
 router.get('/submit', function (req, res, next) {
-  res.status(200).send({});
+  dimensions_table.create({
+    panjang: req.query.p,
+    lebar: req.query.l,
+    tinggi: req.query.t,
+    berat: req.query.b
+  }).then(dimension_table_create => {
+    res.status(200).send({
+      status: 'Created',
+      dimension_table_create
+    });
+  });
 })
 
 module.exports = router;
