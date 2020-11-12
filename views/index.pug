@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= title
+  input(id="inputData" style="display: none;" type='text' value=dData)
+  div(class='row')
+    div(class="col-md-6") 
+      table(class='table')
+        thead
+          tr
+            th QR Code
+            th Panjang
+            th Lebar
+            th Tinggi
+            th Berat
+            th Tanggal
+          each row in dData
+            tr
+              td
+                canvas(id="canvas" + row.id)
+              td=row.panjang
+              td=row.lebar
+              td=row.tinggi
+              td=row.berat
+              td 10-11-2020
+    
+  p Welcome to #{title}
+
+  script(src="/javascripts/bundle.js")
+  script(src="/javascripts/main.js")
