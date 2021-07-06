@@ -28,4 +28,14 @@ router.get('/submit', function (req, res, next) {
   });
 })
 
+router.get('/delete', function (req, res, next) {
+  dimensions_table.destroy({
+    truncate: true
+  }).then(dimensions_table_delete => {
+    res.status(200).send({
+      status: 'deleted'
+    });
+  });
+})
+
 module.exports = router;
